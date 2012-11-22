@@ -1,0 +1,19 @@
+<!doctype html>
+<meta charset=utf-8>
+<title> netscan </title>
+
+<script>
+  var socket = new WebSocket('ws://localhost:1337');
+
+  socket.onmessage = function(message) {
+    var data = JSON.parse(message.data);
+    for (var i = 0 ; i < data.length ; i++) {
+      console.log(data[i].from.ip);
+      console.log(data[i].to.ip);
+    }
+  };
+  
+  socket.onopen = function() {
+  };
+  
+</script>
