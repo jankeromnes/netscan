@@ -8,8 +8,7 @@
   socket.onmessage = function(message) {
     var data = JSON.parse(message.data);
     for (var i = 0 ; i < data.length ; i++) {
-      console.log(data[i].from.ip);
-      console.log(data[i].to.ip);
+      console.log(JSON.stringify(data[i]));
     }
   };
   
