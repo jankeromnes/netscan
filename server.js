@@ -136,4 +136,8 @@ function listen(interface) {
   start();
 };
 
-listen('wlan0');
+interfaces(function (map) {
+  for (var i in map) {
+    listen(i);
+  }
+});
