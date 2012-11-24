@@ -86,19 +86,18 @@ function listen(interface) {
       packet.date = +parseDate(words[0]);
       switch (words[1]) {
         case 'ARP,':
+          packet.protocol = 'ARP';
           if (words[2] === 'Request') {
             packet.from = {ip: words[6].replace(',', '')};
             packet.to = {ip: words[4]};
-            packet.protocol = 'ARP';
-          } else {
-            console.error('UNKNOWN PACKET:', words);
-            return;
+          } else if (words[2] === 'Reply') {
+            packet.from = {ip: words[3], ether: words[5].replace(',', '')}
           }
           break;
         case 'IP': case 'IP6':
+          packet.protocol = words[5].toUpperCase();
           packet.from = parseIP(words[2]);
           packet.to = parseIP(words[4]);
-          packet.protocol = words[5].toUpperCase();
           break;
         default:
           console.error('UNKNOWN PACKET:', words);
@@ -137,4 +136,4 @@ function listen(interface) {
   start();
 };
 
-listen('eth0');
+listen('wlan0');
