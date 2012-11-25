@@ -52,6 +52,8 @@ function interfaces(callback) {
 
 // TODO Collect network info with `netstat -rn`
 function network() {
+  cp.exec('netstat -rn', function (err, data) {
+  });
 }
 
 
@@ -137,6 +139,7 @@ function listen(interface) {
 };
 
 interfaces(function (map) {
+  console.log(map);
   for (var i in map) {
     listen(i);
   }
