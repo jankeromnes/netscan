@@ -140,7 +140,6 @@ function listen(interface) {
 
 interfaces(function (map) {
   console.log(map);
-  for (var i in map) {
-    listen(i);
-  }
 });
+
+listen('any');

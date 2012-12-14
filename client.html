@@ -21,7 +21,11 @@
 
 <script>
 
-  var width = 960, height = 500, fill = d3.scale.category20(),
+  // organize nodes
+  // differentiate nodes (you, server, iphones, ipads, ...) most frenzy / activity?
+  // differentiate links? packet length / frequency
+
+  var fill = d3.scale.category20(),
       hosts = {}, nodes = [], links = [];
 
   function getNode(host) {
@@ -29,14 +33,14 @@
     return nodes[hosts[host.ip]];
   }
 
-  var vis = d3.select('svg').attr('width', width).attr('height', height);
+  var vis = d3.select('svg').attr('width', window.innerWidth).attr('height', window.innerHeight);
 
   var force = d3.layout.force()
       .nodes(nodes)
       .links(links)
-      .size([width, height])
-      .distance(50)
-      .charge(-100);
+      .size([window.innerWidth, window.innerHeight])
+      .distance(30)
+      .charge(-50);
 
   force.on('tick', function() {
     vis.selectAll('line.link')
@@ -69,7 +73,6 @@
         .attr('cx', function(d) { return d.x; })
         .attr('cy', function(d) { return d.y; })
         .attr('r', 10)
-        .call(force.drag)
         .append('title').text(function(d) { return d.ip; });
   }
 
@@ -83,8 +86,12 @@
       var from = getNode(data[i].from);
 
       if (data[i].to) {
-        var to = getNode(data[i].to);
-        links.push({source: from, target: to});
+        var to = getNode(data[i].to),
+            link = {source: from, target: to};
+        links.push(link);
+        setTimeout(function() {
+          links.splice(links.indexOf(link), 1);
+        }, 5000);
       } else {
         /*vis.append("circle")
           .attr("x", from.x)
